@@ -40,7 +40,13 @@ function! s:Vim2Termial(...)
         let b:terminal_job_nr = g:last_term_nr
     endif
     let curwin = winnr()
-    exe b:terminal_job_nr . ' wincmd w'
+    let winid = win_findbuf(b:terminal_job_nr)
+    if len(winid) == 0
+        echoerr "terminal window not found. bufnr: ". b:terminal_job_nr 
+        return
+    endif
+    let winid = winid[0]
+    exe win_id2win(winid) . ' wincmd w'
     call cursor('$', 1)
     exe curwin . ' wincmd w'
 
