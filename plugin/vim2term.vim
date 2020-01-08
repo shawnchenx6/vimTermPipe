@@ -68,12 +68,13 @@ function! s:SendSelection()
         call s:Vim2Termial(line)
     else
         let lines = getline("'<", "'>")
+        let lines += ['']
         call s:Vim2Termial(join(lines, b:line_nl))
     endif
 endfunction
 
 function! s:SearchBlock(startl)
-    let endMarks=["^}","^end"]
+    let endMarks=["^}",'^]', '^)', "^end"]
     let startl = a:startl
     let idx = startl + 1
     while idx <= line('$')
@@ -97,6 +98,7 @@ function! s:SendBlock()
     let startl = line(".")
     let endl = s:SearchBlock(startl)
     let lines = getline(startl, endl)
+    let lines += ['']
     call s:Vim2Termial(join(lines, b:line_nl))
     exe endl + 1
 endfunction
