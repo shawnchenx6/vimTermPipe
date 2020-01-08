@@ -42,13 +42,8 @@ function! s:Vim2Termial(...)
     let curwin = winnr()
     let winid = win_findbuf(b:terminal_job_nr)
     if len(winid) == 0
-<<<<<<< HEAD
-        echoerr "terminal window not found. bufnr: ". b:terminal_job_nr 
-        return
-=======
         echoerr "terminal window not found attched to buffer ". b:terminal_job_nr
         return -1
->>>>>>> 2a0b0e7eb69da4df33f1734106eb279ecd548a1b
     endif
     let winid = winid[0]
     exe win_id2win(winid) . ' wincmd w'
