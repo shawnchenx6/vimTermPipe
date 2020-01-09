@@ -3,16 +3,18 @@
 if exists("g:loaded_vim2term") || &cp
   finish
 endif
-let g:loaded_vim2term = 1 " your version number
+let g:loaded_vim2term = 1 
 let s:keepcpo           = &cpo
 set cpo&vim
+
+
+let b:line_nl = "\<cr>"
 
 " Public Interface:
 nmap <C-Enter> <Plug>SendBlock
 vmap <C-Enter> <Plug>SendSelection
 
 " Global Maps:
-
 nnoremap <silent> <script> <Plug>SendBlock
  \ :call <SID>SendBlock()<CR>
 
@@ -27,6 +29,10 @@ augroup END
 
 
 function! s:send2term(txt)
+    if !exists('g:last_term_id')
+        echomsg 'Terminal not started!'
+        return
+    endif
     if !exists('b:terminal_job_id')
         let b:terminal_job_id = g:last_term_id
         let b:terminal_job_nr = g:last_term_nr
@@ -35,7 +41,7 @@ function! s:send2term(txt)
     let winid = win_findbuf(b:terminal_job_nr)
     if len(winid) == 0
         echoerr "terminal window not found"
-        return -1
+        return 
     endif
     let winid = winid[0]
     exe win_id2win(winid) . ' wincmd w'
@@ -44,29 +50,30 @@ function! s:send2term(txt)
 
     if exists('*chansend')
         call chansend(b:terminal_job_id, a:txt)
+        exe 'sleep 100m'
+        call chansend(b:terminal_job_id, b:line_nl)
     else
         call jobsend(b:terminal_job_id, a:txt)
+        exe 'sleep 100m'
+        call jobsend(b:terminal_job_id, b:line_nl)
     endif
 endfunction
 
 function! s:SendLines(ls)
-    let b:line_nl = "\<cr>"
     if type(a:ls) != 3
-        echoerr "Internal error! Please contact developer"
+        echoerr "Internal Error: argument is not a list. Please contact developer"
     endif
 
     if len(a:ls) == 1
         call s:send2term(a:ls[0])
-        call s:send2term(b:line_nl)
     else
-        let txt= ''
+        let txt= ""
         for line in a:ls
             if line =~ '\S'
                 let txt = txt . line . b:line_nl
             endif
         endfor
         call s:send2term(txt)
-        call s:send2term(b:line_nl)
     endif
 endfunction
 
@@ -84,8 +91,8 @@ function! s:SendSelection()
     let endp = range[1]
     if startp[0] == endp[0]
         let line = getline(startp[0])
-        let span = endp[1] - statp[1]
-        let line = strpart(line, start[1]-1, span)
+        let span = endp[1] - startp[1] + 1
+        let line = strpart(line, startp[1]-1, span)
         let lines = [line]
     else
         let lines = getline(startp[0],endp[0])
