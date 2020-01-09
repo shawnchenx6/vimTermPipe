@@ -14,13 +14,10 @@ vmap <C-Enter> <Plug>SendSelection
 " Global Maps:
 
 nnoremap <silent> <script> <Plug>SendBlock
- \ :set lz<CR>:call <SID>SendBlock()<CR>:set nolz<CR>
+ \ :call <SID>SendBlock()<CR>
 
 vnoremap <silent> <script> <Plug>SendSelection
- \ :set lz<CR>:call <SID>SendSelection()<CR>:set nolz<CR>
-
-" nnoremap <silent> <C-Enter> :call SendBlock()<CR>
-" vnoremap <silent> <C-Enter> <Esc>:call SendSelection()<CR>
+\ <ESC>:call <SID>SendSelection()<CR>
 
 augroup terminalID
     au!
