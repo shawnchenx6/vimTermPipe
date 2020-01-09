@@ -30,7 +30,7 @@ augroup END
 
 function! s:send2term(txt)
     if !exists('g:last_term_id')
-        echomsg 'Terminal not started!'
+        echoerr "Terminal not started!"
         return
     endif
     if !exists('b:terminal_job_id')
@@ -40,7 +40,7 @@ function! s:send2term(txt)
     let curwin = winnr()
     let winid = win_findbuf(b:terminal_job_nr)
     if len(winid) == 0
-        echoerr "terminal window not found"
+        echoerr "Terminal window not found!"
         return 
     endif
     let winid = winid[0]
@@ -61,7 +61,7 @@ endfunction
 
 function! s:SendLines(ls)
     if type(a:ls) != 3
-        echoerr "Internal Error: argument is not a list. Please contact developer"
+        echoerr "Internal Error: Argument should be a list. Please contact developer"
     endif
 
     if len(a:ls) == 1
