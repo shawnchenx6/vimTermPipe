@@ -13,6 +13,7 @@ let b:line_nl = "\<cr>"
 " Public Interface:
 nmap <C-Enter> <Plug>SendBlock
 vmap <C-Enter> <Plug>SendSelection
+command  -nargs=1 LinkTerm call s:LinkTerm(<f-args>)
 
 " Global Maps:
 nnoremap <silent> <script> <Plug>SendBlock
@@ -33,18 +34,19 @@ function! s:send2term(txt)
         echoerr "Terminal not started!"
         return
     endif
+
     if !exists('b:terminal_job_id')
         let b:terminal_job_id = g:last_term_id
         let b:terminal_job_nr = g:last_term_nr
     endif
+
     let curwin = winnr()
-    let winid = win_findbuf(b:terminal_job_nr)
-    if len(winid) == 0
+    let twinnr = s:BufWinNr(b:terminal_job_nr)
+    if twinnr == -1
         echoerr "Terminal window not found!"
-        return 
+        return -1
     endif
-    let winid = winid[0]
-    exe win_id2win(winid) . ' wincmd w'
+    exe twinnr . ' wincmd w'
     call cursor('$', 1)
     exe curwin . ' wincmd w'
 
@@ -57,6 +59,30 @@ function! s:send2term(txt)
         exe 'sleep 100m'
         call jobsend(b:terminal_job_id, b:line_nl)
     endif
+endfunction
+
+function! s:LinkTerm(...)
+    let curwin = winnr()
+    let b:terminal_job_nr = str2nr(a:1)
+    let twinnr = s:BufWinNr(b:terminal_job_nr)
+    if twinnr == -1
+        echoerr "Terminal window not found!"
+        return -1
+    endif
+    exe twinnr . ' wincmd w'
+    let term_job_id = b:terminal_job_id
+    exe curwin . ' wincmd w'
+    let b:terminal_job_id = term_job_id
+    echomsg "Linked to buffer " . bufname(b:terminal_job_nr)
+endfunction
+
+function! s:BufWinNr(bufnr)
+    let winid = win_findbuf(a:bufnr)
+    if len(winid) == 0
+        return -1
+    endif
+    let winid = winid[0]
+    return win_id2win(winid)
 endfunction
 
 function! s:SendLines(ls)
