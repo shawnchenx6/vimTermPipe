@@ -8,7 +8,6 @@ let s:keepcpo           = &cpo
 set cpo&vim
 
 
-let b:line_nl = "\<cr>"
 
 " Public Interface:
 nmap <C-Enter> <Plug>SendBlock
@@ -86,6 +85,7 @@ function! s:BufWinNr(bufnr)
 endfunction
 
 function! s:SendLines(ls)
+    let b:line_nl = "\<cr>"
     if type(a:ls) != 3
         echoerr "Internal Error: Argument should be a list. Please contact developer"
     endif
