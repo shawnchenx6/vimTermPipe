@@ -57,6 +57,12 @@ Use visual mode to select the lines and press Ctrl-Enter to send selection to th
 2. If the automatic binding didn't bind the buffer to the terminal you want you can use the `:LinkTerm` to change binding. say the terminal buffer number you want to bind is 3, put the cursor in the code buffer, type `:LinkTerm 3` to link the buffer to the terminal.
 
 ## Usage
+0. put the following line to your vimrc file 
+```
+nmap <C-Enter> <Plug>SendBlock
+vmap <C-Enter> <Plug>SendSelection
+```
+
 1. open a code file , say hello.py
 2. use `:split` to split the window
 3. open a terminal using `:terminal`, type `python` or `ipython` in the termial to start a python session
@@ -66,7 +72,7 @@ Use visual mode to select the lines and press Ctrl-Enter to send selection to th
 
 5. spit a window, open a file, say hello.R 
 6. split a window and open terminal
-7. go back to the file and put the cursor, press <C-Enter>
+7. go back to the file and put the cursor, press Ctrl-Enter
 
 Happy vim! Feel free to  star and fork.
 

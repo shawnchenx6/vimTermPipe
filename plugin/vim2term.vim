@@ -10,8 +10,8 @@ set cpo&vim
 
 
 " Public Interface:
-nmap <C-Enter> <Plug>SendBlock
-vmap <C-Enter> <Plug>SendSelection
+" nmap <C-Enter> <Plug>SendBlock
+" vmap <C-Enter> <Plug>SendSelection
 command  -nargs=1 LinkTerm call s:LinkTerm(<f-args>)
 
 " Global Maps:
