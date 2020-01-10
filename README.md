@@ -1,4 +1,5 @@
-# vim2term
+# vimTermPipe
+
 a vim/nvim plugin to simply send lines to terminal
 
 This plugin is tested on windows 10 nvim. I am python and R user. So python, ipthon, R and radian are tested.
