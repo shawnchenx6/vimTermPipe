@@ -7,8 +7,6 @@ let g:loaded_vim2term = 1
 let s:keepcpo           = &cpo
 set cpo&vim
 
-
-
 " Public Interface:
 " nmap <C-Enter> <Plug>SendBlock
 " vmap <C-Enter> <Plug>SendSelection
@@ -93,16 +91,22 @@ function! s:SendLines(ls)
     if len(a:ls) == 1
         call s:send2term(a:ls[0])
     else
-        let txt= ""
-        for line in a:ls
-            if line =~ '\S'
-                let txt = txt . line . b:line_nl
-            endif
-        endfor
+        call s:listRStrip(a:ls)
+        let txt = join(a:ls, b:line_nl). b:line_nl
         call s:send2term(txt)
     endif
 endfunction
 
+function! s:listRStrip(ls)
+    let cur = len(a:ls) - 1
+    while cur >= 0
+        if a:ls[cur] =~ '\S'
+            break
+        endif
+        call remove(a:ls, cur)
+        let cur -= 1
+    endwhile
+endfunction
 
 function! s:SearchSelection()
     let startp = [line("'<"), col("'<")]
