@@ -4,6 +4,9 @@ a vim/nvim plugin to simply send lines to terminal
 
 This plugin is tested on windows 10 nvim. I am python and R user. So python, ipthon, R and radian are tested.
 
+## How to install
+Either use a plugin manager such as Vim-Plug or copy the directories and their files to your ~/.vim or ~/.config/nvim directory.
+
 ## Main function
 ###  Send line/lines
 You can send one single line, code blocks and selection to the terminal (default binding `<C-Enter>`)
