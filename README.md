@@ -1,5 +1,7 @@
 # vimTermPipe
 
+
+![demo](https://github.com/ShawnChen1996/vimTermPipe/blob/master/demo.gif)
 a vim/nvim plugin to simply send lines to terminal
 
 This plugin is tested on windows 10 nvim. I am python and R user. So python, ipthon, R and radian are tested.
