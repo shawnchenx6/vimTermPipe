@@ -88,10 +88,10 @@ function! s:SendLines(ls)
         echoerr "Internal Error: Argument should be a list. Please contact developer"
     endif
 
+    call s:listRStrip(a:ls)
     if len(a:ls) == 1
         call s:send2term(a:ls[0])
     else
-        call s:listRStrip(a:ls)
         let txt = join(a:ls, b:line_nl). b:line_nl
         call s:send2term(txt)
     endif
