@@ -1,7 +1,7 @@
 " ------------------------------------------------------------------------------
 " Exit when your app has already been loaded (or "compatible" mode set)
 if exists("g:loaded_vim2term") || &cp
-  finish
+    finish
 endif
 let g:loaded_vim2term = 1 
 let s:keepcpo           = &cpo
@@ -160,5 +160,8 @@ function! s:SendBlock()
 endfunction
 
 let &cpo= s:keepcpo
+
 unlet s:keepcpo
+
+
 
