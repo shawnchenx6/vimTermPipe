@@ -88,7 +88,7 @@ function! s:SendLines(ls)
         echoerr "Internal Error: Argument should be a list. Please contact developer"
     endif
 
-    call s:listRStrip(a:ls)
+    call s:listStrip(a:ls)
     if len(a:ls) == 1
         call s:send2term(a:ls[0])
     else
@@ -97,14 +97,14 @@ function! s:SendLines(ls)
     endif
 endfunction
 
-function! s:listRStrip(ls)
-    let cur = len(a:ls) - 1
-    while cur >= 0
+function! s:listStrip(ls)
+    let cur = len(a:ls)
+    while cur > 0
+        let cur -= 1
         if a:ls[cur] =~ '\S'
-            break
+            continue
         endif
         call remove(a:ls, cur)
-        let cur -= 1
     endwhile
 endfunction
 
